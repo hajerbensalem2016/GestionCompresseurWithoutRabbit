@@ -13,11 +13,14 @@ using SuiviCompresseur.Gestion.Responsable.Aplication.Interfaces;
 using SuiviCompresseur.Gestion.Responsable.Domain.Models;
 using SuiviCompresseur.Gestion.Responsable.Aplication.Models;
 using SuiviCompresseur.Gestion.Responsable.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace SuiviCompresseur.GestionResponsable.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class FilialeController : ControllerBase
     {
         private readonly IFilialeService _filialeService;
@@ -32,6 +35,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // GET api/Filiale
+        [AllowAnonymous]
         [HttpGet]
         public Task<IEnumerable<Filiale>> Get()
         {
@@ -39,6 +43,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // GET api/Filiale/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public Task<Filiale> Get1(Guid id)
         {
@@ -46,6 +51,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // DELETE: api/Filiales/5
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpDelete("{id}")]
         public Task<string> DeleteFiliale(Guid id)
         {
@@ -53,12 +59,15 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // PUT: api/Filiales/5
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpPut("{id}")]
         public Task<string> PutFiliale(Guid id, [FromBody] Filiale Filiale)
         {
             return _filialeService.PutFiliale(id, Filiale);
         }
 
+
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpPost]
         public Task<string> Post([FromBody] Filiale filiale)
         {

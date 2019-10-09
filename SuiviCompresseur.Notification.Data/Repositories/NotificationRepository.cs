@@ -51,14 +51,16 @@ namespace SuiviCompresseur.Notification.Data.Repositories
 
         public string Send(EmailMessage emailMessage)
         {
-
+            string NameFrom = emailMessage.FromAddresses.Substring(1, emailMessage.FromAddresses.IndexOf("/") - 1);
+            string NameTo = emailMessage.FromAddresses.Substring(1, emailMessage.FromAddresses.IndexOf("/") - 1);
             var message = new MimeMessage();
 
             try
             {
 
-
-                message.To.Add(new MailboxAddress("azerty", emailMessage.ToAddresses));
+   
+                message.From.Add(new MailboxAddress(NameFrom, emailMessage.FromAddresses));
+                message.To.Add(new MailboxAddress(NameTo, emailMessage.ToAddresses));
                 message.Subject = emailMessage.Subject;
                 var bodyBuilder1 = new BodyBuilder();
                 bodyBuilder1.HtmlBody = emailMessage.Content;
@@ -75,13 +77,13 @@ namespace SuiviCompresseur.Notification.Data.Repositories
   <thead>
     <tr>
     <td>
-      Rached Trabelsi
+      {0}
       </td>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>E-Mail : {0}</td>
+      <td>E-Mail : {1}</td>
     </tr>
     <tr>
       <td>Service : Informatique Operationnelle</td>
@@ -94,9 +96,9 @@ namespace SuiviCompresseur.Notification.Data.Repositories
     </tr>
 </tbody>
 <tfoot> 
-<center><img src=""cid:{1}""></center>
+<center><img src=""cid:{2}""></center>
 </tfoot>
-</table>", message.From.ToString(), image.ContentId);
+</table>",NameFrom, message.From.ToString(), image.ContentId);
 
 
 
@@ -123,8 +125,8 @@ namespace SuiviCompresseur.Notification.Data.Repositories
                     EmailFrom emailFrom = new EmailFrom();
 
                     emailFrom.FromAddresses = emailMessage.FromAddresses;
-                    string Name = emailMessage.FromAddresses.Remove(1,emailMessage.FromAddresses.IndexOf("/"));
-                    emailFrom.FromName = Name;
+        
+                    emailFrom.FromName = NameFrom;
                     emailFrom.Subject = emailMessage.Subject;
                     emailFrom.Content = emailMessage.Content;
                     emailFrom.SendDate = DateTime.Now;
@@ -138,7 +140,7 @@ namespace SuiviCompresseur.Notification.Data.Repositories
                     emailTo.IdMail = emailFrom.IdMail;
                     emailTo.Seen = false;
                     emailTo.ToAddresses = emailMessage.ToAddresses;
-                    string NameTo= emailMessage.ToAddresses.Substring(1,emailMessage.ToAddresses.IndexOf("/"));
+                    
                     emailTo.ToName = NameTo;
                     emailTo.ReceiveType = "A";
 
@@ -182,8 +184,8 @@ namespace SuiviCompresseur.Notification.Data.Repositories
                 EmailFrom emailFrom = new EmailFrom();
 
                 emailFrom.FromAddresses = emailMessage.FromAddresses;
-                string Name = emailMessage.FromAddresses.Substring(1,emailMessage.FromAddresses.IndexOf("/")-1);
-                emailFrom.FromName = Name;
+                
+                emailFrom.FromName = NameFrom;
                 emailFrom.Subject = emailMessage.Subject;
                 emailFrom.Content = emailMessage.Content;
                 emailFrom.SendDate = DateTime.Now;
@@ -198,7 +200,7 @@ namespace SuiviCompresseur.Notification.Data.Repositories
                 emailTo.IdMail = emailFrom.IdMail;
                 emailTo.Seen = false;
                 emailTo.ToAddresses = emailMessage.ToAddresses;
-                string NameTo = emailMessage.ToAddresses.Substring(1,emailMessage.ToAddresses.IndexOf("/")-1);
+               
                 emailTo.ToName = NameTo;
                 emailTo.ReceiveType = "A";
                 _context.EmailTos.Add(emailTo);

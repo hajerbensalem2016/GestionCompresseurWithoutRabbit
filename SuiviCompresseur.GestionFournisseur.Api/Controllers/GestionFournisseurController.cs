@@ -33,12 +33,15 @@ namespace SuiviCompresseur.GestionFournisseur.Api.Controllers
         //[Authorize(Roles = "Editors")]
         //[Authorize(Roles = "Admin")]
        // [Authorize(Roles = "Editors, Admin, SupAdmin")]
+        [AllowAnonymous]
         [HttpGet]
         public Task<IEnumerable<Fournisseur>> Get()
         {
             return _fournisseurService.GetFournisseurs();
         }
 
+
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpPost]
         public Task<string> Post([FromBody] Fournisseur fournisseur)
         {
@@ -53,13 +56,19 @@ namespace SuiviCompresseur.GestionFournisseur.Api.Controllers
             //});
             //return Ok(fournisseurCreation);
         }
+
+
         // GET: api/fournisseur/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public Task<Fournisseur> GetFournisseur(Guid id)
         {
             return _fournisseurService.GetFournisseur(id);
         }
+
+
         // PUT: api/fournisseur/5
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpPut("{id}")]
         public Task<string> PutFournisseur(Guid id, Fournisseur fournisseur)
         {
@@ -69,6 +78,7 @@ namespace SuiviCompresseur.GestionFournisseur.Api.Controllers
 
 
         // DELETE: api/fournisseur/5
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpDelete("{id}")]
         public Task<string> DeleteFournisseur(Guid id)
         {

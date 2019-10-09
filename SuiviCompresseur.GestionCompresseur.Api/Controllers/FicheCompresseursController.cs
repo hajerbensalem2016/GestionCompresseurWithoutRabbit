@@ -11,11 +11,15 @@ using SuiviCompresseur.GestionCompresseur.Domain.Models;
 using MediatR;
 using SuiviCompresseur.GestionCompresseur.Domain.Queries;
 using SuiviCompresseur.GestionCompresseur.Domain.Commands;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class FicheCompresseursController : ControllerBase
     {
 
@@ -28,31 +32,37 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
             this.mediator = mediator;
         }
 
+
         // GET: api/FicheCompresseurs
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<FicheCompresseur>> GetFicheCompresseurs() =>
             await mediator.Send(new GetAllGenericQuery<FicheCompresseur>());
 
 
         // GET: api/FicheCompresseurs/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<FicheCompresseur> GetFicheCompresseur(Guid id) =>
             await mediator.Send(new GetGenericQuery<FicheCompresseur>(id));
 
 
         // PUT: api/FicheCompresseurs/5
+        [AllowAnonymous]
         [HttpPut("{id}")]
         public async Task<string> PutFicheCompresseur([FromRoute] Guid id, [FromBody] FicheCompresseur ficheCompresseur) =>
             await mediator.Send(new PutGenericCommand<FicheCompresseur>(id, ficheCompresseur));
 
 
         // POST: api/FicheCompresseurs
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<string>> PostFicheCompresseur([FromBody] FicheCompresseur ficheCompresseur) =>
             await mediator.Send(new CreateGenericCommand<FicheCompresseur>(ficheCompresseur));
 
 
         // DELETE: api/FicheCompresseurs/5
+        [AllowAnonymous]
         [HttpDelete("{id}")]
         public async Task<string> DeleteFicheCompresseur(Guid id) =>
             await mediator.Send(new RemoveGenericCommand<FicheCompresseur>(id));

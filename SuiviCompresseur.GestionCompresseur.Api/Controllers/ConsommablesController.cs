@@ -12,11 +12,15 @@ using MediatR;
 
 using SuiviCompresseur.GestionCompresseur.Domain.Commands;
 using SuiviCompresseur.GestionCompresseur.Domain.Queries;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class ConsommablesController : ControllerBase
     {
         private readonly CompresseurDbContext _context;
@@ -28,29 +32,38 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
             _context = context;
         }
 
+
         // GET: api/Consommables
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<Consommable>> GetConsommables() =>
              await mediator.Send(new GetAllGenericQuery<Consommable>());
 
 
         // GET: api/Consommable/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<Consommable> GetConsommable(Guid id) =>
             await mediator.Send(new GetGenericQuery<Consommable>(id));
 
 
         // POST: api/Consommable
+        [AllowAnonymous]
         [HttpPost]
         public async Task<string> PostConsommable([FromBody] Consommable consommable) =>
             await mediator.Send(new CreateGenericCommand<Consommable>(consommable));
 
+
         // PUT: api/Consommable/5
+        [AllowAnonymous]
         [HttpPut("{id}")]
         public async Task<string> PutConsommable([FromRoute] Guid id, [FromBody] Consommable consommable) =>
             await mediator.Send(new PutGenericCommand<Consommable>(id, consommable));
 
+
         // DELETE: api/Consommable/5
+        [Authorize(Roles = "Editors , SupAdmin")]
         [HttpDelete("{id}")]
         public async Task<string> DeleteConsommable(Guid id) =>
             await mediator.Send(new RemoveGenericCommand<Consommable>(id));

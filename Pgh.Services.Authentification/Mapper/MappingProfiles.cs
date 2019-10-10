@@ -32,7 +32,7 @@ namespace Pgh.Services.Authentification.Mapper
             CreateMap<Menus, MenusDtoRead>()
                 .ForMember(dest => dest.MenuParentId, opt => opt.MapFrom(src => src.FkMenu.MenuId))
                 .ForMember(dest => dest.MenuParentName, opt => opt.MapFrom(src => src.FkMenu.MenuName))
-                .ForMember(dest => dest.AppId, opt => opt.MapFrom(src => src.FkApp.AppId))
+                .ForMember(dest => dest.AppId, opt => opt.MapFrom(src => src.FkAppId))
                 .ForMember(dest => dest.AppName, opt => opt.MapFrom(src => src.FkApp.AppDisplayName))
                 .ReverseMap();
 

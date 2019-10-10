@@ -216,7 +216,7 @@ namespace Pgh.Services.Authentification.Controllers
                 }
 
 
-                _mapper.Map(entity, entityToUpdate);
+                _mapper.Map(entityToUpdate, entity);
 
                 await Work.Complete();
             }
@@ -592,7 +592,45 @@ namespace Pgh.Services.Authentification.Controllers
             var res = _mapper.Map<IEnumerable<RoleUsersMenusDto>>(obj);
             return new JsonResult(res);
         }
-        
+
+
+        [HttpPut("/api/roles/Users-Menus")]
+        public async Task<ActionResult> PutRolesUsersMenus([FromBody] IEnumerable<RoleUsersMenusDtoUpdate> liEntity)
+        {
+
+            foreach (var entity in liEntity)
+            {
+                if (entity == null)
+                {
+                    return new JsonResult(new ErrorDetails
+                    {
+                        StatusCode = 400,
+                        Message = "Veuillez ajouter des informations concernant le role !"
+                    });
+                }
+
+                var entityToUpdate = await Work.AffRoleUsersMenus.Get(x => x.MenuId == entity.MenuId && x.UsersId == entity.UserId);
+
+                if (entityToUpdate == null)
+                {
+                    return new JsonResult(new ErrorDetails
+                    {
+                        StatusCode = 404,
+                        Message = "role n'existe pas dans la base de donneés veuillez verifier son Nom !"
+                    });
+                }
+
+                
+                _mapper.Map(entity, entityToUpdate);
+
+                await Work.Complete();
+            }
+
+
+            return Ok();
+        }
+        #endregion
+
         [HttpDelete("/api/roles/Users-Menus")]
         public async Task<ActionResult> DeleteUsersMenusList([FromQuery] RoleUsersMenusDtoGetDelete query)
         {
@@ -666,7 +704,7 @@ namespace Pgh.Services.Authentification.Controllers
             return Ok();
         }
 
-        #endregion
+       
 
 
 

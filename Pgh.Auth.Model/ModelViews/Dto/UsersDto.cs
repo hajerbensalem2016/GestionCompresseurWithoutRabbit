@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Pgh.Auth.Model.ModelViews.Dto
 {
-    
+
     public class UsersDtoForCreation
     {
         [Required]
@@ -45,11 +45,11 @@ namespace Pgh.Auth.Model.ModelViews.Dto
         [JsonProperty("User collaborators")]
         public List<UsersDtoForCreation> SubUsers { get; set; } = new List<UsersDtoForCreation>();
     }
-    
+
     public class UsersDtoForRead
     {
         [Required]
-        [JsonProperty("User ID")]
+        [JsonProperty("UserID")]
         public Guid UsersId { get; set; }
         [Required]
         [JsonProperty("User Code")]
@@ -125,14 +125,14 @@ namespace Pgh.Auth.Model.ModelViews.Dto
         [JsonProperty("Supervisor ID")]
         public Guid? FkUsersId { get; set; }
     }
-    
+
     public class UsersDtoCreateList
     {
         [JsonProperty("Parent ID")]
         public Guid? ParentId { get; set; }
 
         [JsonProperty("Users List")]
-        public UsersDtoForCreation LiUsers { get; set; } 
+        public UsersDtoForCreation LiUsers { get; set; }
     }
 
 }

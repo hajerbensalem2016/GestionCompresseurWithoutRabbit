@@ -20,6 +20,10 @@ namespace Pgh.Services.Authentification.Helpers
         public string Application { get; set; }
         [JsonProperty("Code_Application")]
         public string AppCode { get; set; }
+        [JsonProperty("PhoneExterne")]
+        public string PhoneExterne { get; set; }
+        [JsonProperty("PhoneInterne")]
+        public string PhoneInterne { get; set; }
         [JsonProperty("Liste_des_permissions")]
         public List<MenuPermission> MenuPermissions { get; set; }
 

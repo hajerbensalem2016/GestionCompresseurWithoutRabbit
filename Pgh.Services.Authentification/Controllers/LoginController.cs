@@ -154,6 +154,8 @@ namespace Pgh.Services.Authentification.Controllers
                 UserName = user.UsersLastName + " " + user.UsersName,
                 UserFiliale = user.FilialeID.ToString(),
                 UserMail = user.UsersMailIntern,
+                PhoneInterne = user.UsersPhoneNumber,
+                PhoneExterne = user.UsersPersonalNumber,
                 UserLogin = user.UsersCode
             };
 

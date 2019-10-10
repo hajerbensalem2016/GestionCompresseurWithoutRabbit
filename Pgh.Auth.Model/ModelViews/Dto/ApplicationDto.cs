@@ -7,13 +7,13 @@ namespace Pgh.Auth.Model.ModelViews.Dto
 {
     public class ApplicationDtoCreate
     {
-        [Required,MaxLength(15)]
+        [Required, MaxLength(15)]
         [JsonProperty("Application Code")]
         public string AppCode { get; set; }
-        [Required,MaxLength(40)]
+        [Required, MaxLength(40)]
         [JsonProperty("Application Name")]
         public string AppName { get; set; }
-        [Required,MaxLength(50)]
+        [Required, MaxLength(50)]
         [JsonProperty("Application Display Name")]
         public string AppDisplayName { get; set; }
         [JsonProperty("Application Description")]
@@ -25,39 +25,39 @@ namespace Pgh.Auth.Model.ModelViews.Dto
     public class ApplicationDtoRead
     {
         [Required]
-        [JsonProperty("Application ID")]
+        [JsonProperty("ApplicationID")]
         public Guid AppId { get; set; }
-        [JsonProperty("Application Code")]
+        [JsonProperty("ApplicationCode")]
         public string AppCode { get; set; }
-        [JsonProperty("Application Name")]
+        [JsonProperty("ApplicationName")]
         public string AppName { get; set; }
-        [JsonProperty("Application Display Name")]
+        [JsonProperty("ApplicationDisplayName")]
         public string AppDisplayName { get; set; }
         //Might hide this informations
-        [JsonProperty("Application Description")]
+        [JsonProperty("ApplicationDescription")]
         public string AppDescription { get; set; }
-        [JsonProperty("Application State")]
+        [JsonProperty("ApplicationState")]
         public bool AppState { get; set; }
     }
-    
+
     public class ApplicationUsersDto
     {
         [Required]
-        [JsonProperty("Application ID")]
+        [JsonProperty("ApplicationID")]
         public Guid AppId { get; set; }
-        [JsonProperty("Application Code")]
+        [JsonProperty("ApplicationCode")]
         public string AppCode { get; set; }
-        [JsonProperty("Application Name")]
+        [JsonProperty("ApplicationName")]
         public string AppName { get; set; }
-        [JsonProperty("Application Display Name")]
+        [JsonProperty("ApplicationDisplayName")]
         public string AppDisplayName { get; set; }
         //Might hide this informations
-        [JsonProperty("Application Description")]
+        [JsonProperty("ApplicationDescription")]
         public string AppDescription { get; set; }
-        [JsonProperty("Application State")]
+        [JsonProperty("ApplicationState")]
         public bool AppState { get; set; }
 
-        [JsonProperty("Liste Utilisateurs")]
+        [JsonProperty("ListeUtilisateurs")]
         public IEnumerable<ApplicationUsersDtoRead> Users { get; set; } = new List<ApplicationUsersDtoRead>();
     }
 
@@ -70,28 +70,28 @@ namespace Pgh.Auth.Model.ModelViews.Dto
         [JsonProperty("User Password")]
         public string Password { get; set; }
     }
-    
+
     public class ApplicationUsersDtoRead
     {
         [Required]
-        [JsonProperty("User ID")]
+        [JsonProperty("UserID")]
         public Guid UsersId { get; set; }
-        [Required,MaxLength(8)]
-        [JsonProperty("User CIN")]
+        [Required, MaxLength(8)]
+        [JsonProperty("UserCIN")]
         public string UsersCode { get; set; }
-        [JsonProperty("User Name")]
-        public string UsersFullName { get; set; }
-        [JsonProperty("User State")]
+        [JsonProperty("UserName")]
+        public string UsersName { get; set; }
+        [JsonProperty("UserState")]
         public string UsersState { get; set; }
-        [JsonProperty("User Mail")]
+        [JsonProperty("UserMail")]
         public string UsersMail { get; set; }
-        [JsonProperty("User Mail Intern")]
+        [JsonProperty("UserMailIntern")]
         public string UsersMailIntern { get; set; }
-        [JsonProperty("User Post Name")]
+        [JsonProperty("UserPostName")]
         public string UsersPosteName { get; set; }
-        [JsonProperty("User Office Number")]
+        [JsonProperty("UserOfficeNumber")]
         public string UsersPhoneNumber { get; set; }
-        [JsonProperty("User Personal Number")]
+        [JsonProperty("UserPersonalNumber")]
         public string UsersPersonalNumber { get; set; }
         [JsonProperty("User Gender")]
         public string UsersGenderCode { get; set; }

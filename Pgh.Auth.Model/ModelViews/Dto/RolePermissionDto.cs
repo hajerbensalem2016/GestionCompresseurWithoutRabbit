@@ -53,6 +53,16 @@ namespace Pgh.Auth.Model.ModelViews.Dto
         public Guid? MenuId { get; set; }
     }
 
+    public class RoleUsersMenusDtoUpdate
+    {
+        [JsonProperty("Role ID")]
+        public Guid? RoleId { get; set; }
+        [JsonProperty("User ID")]
+        public Guid? UserId { get; set; }
+        [JsonProperty("Menu ID")]
+        public Guid? MenuId { get; set; }
+    }
+
 
 
     /// <summary>

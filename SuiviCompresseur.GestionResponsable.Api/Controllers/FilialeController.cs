@@ -35,7 +35,8 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // GET api/Filiale
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpGet]
         public Task<IEnumerable<Filiale>> Get()
         {
@@ -43,7 +44,8 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // GET api/Filiale/5
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpGet("{id}")]
         public Task<Filiale> Get1(Guid id)
         {
@@ -51,7 +53,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // DELETE: api/Filiales/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpDelete("{id}")]
         public Task<string> DeleteFiliale(Guid id)
         {
@@ -59,7 +61,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // PUT: api/Filiales/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPut("{id}")]
         public Task<string> PutFiliale(Guid id, [FromBody] Filiale Filiale)
         {
@@ -67,7 +69,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
 
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPost]
         public Task<string> Post([FromBody] Filiale filiale)
         {

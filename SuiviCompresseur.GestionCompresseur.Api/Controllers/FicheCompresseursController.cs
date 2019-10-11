@@ -48,7 +48,7 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 
 
         // PUT: api/FicheCompresseurs/5
-        [AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPut("{id}")]
         public async Task<string> PutFicheCompresseur([FromRoute] Guid id, [FromBody] FicheCompresseur ficheCompresseur) =>
             await mediator.Send(new PutGenericCommand<FicheCompresseur>(id, ficheCompresseur));

@@ -30,21 +30,23 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // GET api/Users
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpGet]
         public async Task<IEnumerable<Users>> GetUserss() =>
             await mediator.Send(new GetAllGenericQueryGR<Users>());
 
 
         // GET api/Users/5
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpGet("{id}")]
         public async Task<Users> GetUsers(Guid id) =>
             await mediator.Send(new GetGenericQueryGR<Users>(id));
 
 
         // DELETE: api/Userss/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpDelete("{id}")]
         public async Task<string> DeleteUsers(Guid id) =>
             await mediator.Send(new RemoveGenericCommandGR<Users>(id));
@@ -52,7 +54,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
 
 
         // PUT: api/Userss/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPut("{id}")]
         public async Task<string> PutUsers([FromRoute] Guid id, [FromBody] Users Users)
         {
@@ -60,7 +62,7 @@ namespace SuiviCompresseur.GestionResponsable.Api.Controllers
         }
 
         // POST api/Users
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPost]
         public async Task<string> PostUsers([FromBody] Users Users) =>
             await mediator.Send(new CreateGenericCommandGR<Users>(Users));

@@ -47,21 +47,21 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 
 
         // PUT: api/GRHs/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpPut("{id}")]
         public async Task<string> PutGRH([FromRoute] Guid id, [FromBody] GRH grh) =>
             await mediator.Send(new PutGenericCommand<GRH>(id, grh));
 
 
         // POST: api/GRHs
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpPost]
         public async Task<string> PostGRH([FromBody] GRH gRH) =>
             await mediator.Send(new CreateGenericCommand<GRH>(gRH));
 
 
         // DELETE: api/GRHs/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpDelete("{id}")]
         public async Task<string> DeleteGRH(Guid id) =>
             await mediator.Send(new RemoveGenericCommand<GRH>(id));

@@ -60,9 +60,10 @@ namespace SuiviCompresseur.GestionCompresseur.Data.Repository
         {
             table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
-              _context.SaveChanges();
+            _context.SaveChanges();
             return "Update Done";
 
         }
     }
 }
+

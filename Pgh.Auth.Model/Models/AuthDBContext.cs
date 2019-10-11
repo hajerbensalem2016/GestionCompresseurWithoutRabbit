@@ -30,8 +30,8 @@ namespace Pgh.Auth.Model.Models
             if (!optionsBuilder.IsConfigured)
             {
                 //192.168.60.94
-                //optionsBuilder.UseSqlServer(@"Data Source=tcp:172.21.66.129,1433;Database=Pgh.AuthService1;User ID=hajour;Password=340$Uuxwp7Mcxo7Khy; MultipleActiveResultSets=True");
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Database=Pgh.AuthService1;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(@"Data Source=tcp:172.21.66.129,1433;Database=Pgh.AuthService1;User ID=hajour;Password=340$Uuxwp7Mcxo7Khy; MultipleActiveResultSets=True");
+                //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Database=Pgh.AuthService1;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             }
         }

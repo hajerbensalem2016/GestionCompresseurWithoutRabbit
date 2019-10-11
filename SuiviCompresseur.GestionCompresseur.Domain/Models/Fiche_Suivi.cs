@@ -22,13 +22,13 @@ namespace SuiviCompresseur.GestionCompresseur.Domain.Models
         public int Index_Electrique { set; get; }
         public double TempsArret { get; set; }
         public ListeEtat Etat { get; set; }
-        public string FréquenceEentretienDeshuileur { get; set; }
+        public string FrequenceEentretienDeshuileur { get; set; }
         public double CourantAbsorbePhase { get; set; }
         public string TypeDernierEntretien { get; set; }
         public double PriseCompteur { get; set; }
         [Required]
         public double THuileC { get; set; }
-        public string TSécheurC { get; set; }
+        public string TSecheurC { get; set; }
         public string Remarques { get; set; }
         
 

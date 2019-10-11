@@ -22,12 +22,12 @@ namespace Pgh.Auth.Model.ModelViews.Dto
     public class RoleDtoForReadUpdate
     {
         [Required]
-        [JsonProperty("Role ID")]
+        [JsonProperty("RoleID")]
         public Guid RoleId { get; set; }
         [Required]
-        [JsonProperty("Role Name")]
+        [JsonProperty("RoleName")]
         public string RoleName { get; set; }
-        [JsonProperty("Role Display Name")]
+        [JsonProperty("RoleDisplayName")]
         public string RoleDisplayName { get; set; }
         [JsonProperty("Role Description")]
         public string RoleDescription { get; set; }

@@ -2,9 +2,7 @@
 using SuiviCompresseur.GestionCompresseur.Data.Context;
 using SuiviCompresseur.GestionCompresseur.Domain.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SuiviCompresseur.GestionCompresseur.Data.Repository
 {
@@ -28,6 +26,7 @@ namespace SuiviCompresseur.GestionCompresseur.Data.Repository
                 DateTime.Compare(fiche_Suivi.Date, c.Date) < 0).Max(c => c.Index_Electrique);
             }
             string datedouble = TestDoubleDate(fiche_Suivi);
+            int firtM = 0;
             if (datedouble == "true")
             {
                 int value = DateTime.Compare(fiche_Suivi.Date, DateTime.Now);
@@ -39,41 +38,48 @@ namespace SuiviCompresseur.GestionCompresseur.Data.Repository
                         var exist = _context.Fiche_Suivis.Where(c => c.CompFilialeID == fiche_Suivi.CompFilialeID).FirstOrDefault();
                         if (exist != null)
                         {
-                            DateTime date2;
-                            int annee = fiche_Suivi.Date.Year;
-                            int mois = fiche_Suivi.Date.Month - 1;
-                            if (mois == 0)
+                            var FirstMonth = _context.Fiche_Suivis.Min(c => c.Date);
+                            firtM = DateTime.Compare(fiche_Suivi.Date, FirstMonth);
+                            if (firtM != 0)
                             {
-                                mois = 12;
-                                annee--;
-                            }
-                            int last = DateTime.DaysInMonth(annee, mois);
-                            DateTime date = new DateTime(annee, mois, last);
+                                DateTime lastMonthDate;
+                                int annee = fiche_Suivi.Date.Year;
+                                int mois = fiche_Suivi.Date.Month - 1;
+                                if (mois == 0)
+                                {
+                                    mois = 12;
+                                    annee--;
+                                }
+                                int numberOfDays = DateTime.DaysInMonth(annee, mois);
+                                DateTime date = new DateTime(annee, mois, numberOfDays);
 
-                            if (date.DayOfWeek == DayOfWeek.Saturday)
-                            {
-                                date2 = new DateTime(annee, mois, last - 1);
-                            }
-                            else if (date.DayOfWeek != DayOfWeek.Sunday)
-                            {
-                                date2 = new DateTime(annee, mois, last - 2);
+                                if (date.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    lastMonthDate = new DateTime(annee, mois, numberOfDays - 1);
+                                }
+                                else if (date.DayOfWeek == DayOfWeek.Sunday)
+                                {
+                                    lastMonthDate = new DateTime(annee, mois, numberOfDays - 2);
+                                }
+                                else
+                                {
+                                    lastMonthDate = new DateTime(annee, mois, numberOfDays);
+                                }
+                                var res = _context.Fiche_Suivis.Where(c => c.Date == lastMonthDate).FirstOrDefault();
+                                if (res != null)
+                                    result = "true";
+                                else
+                                    result = "The last day of the previous month not completed";
                             }
                             else
-                            {
-                                date2 = new DateTime(annee, mois, last);
-                            }
-                            var res = _context.Fiche_Suivis.Where(c => c.Date == date2).FirstOrDefault();
-                            if (res != null)
                                 result = "true";
-                            else
-                                result = "The last day of the previous month not completed";
                         }
                         else
                             result = "true";
 
                     }
                     else
-                         result = "Week-end";
+                        result = "Week-end";
                 }
                 else
                     result = "Date superior to the date of today";
@@ -99,81 +105,88 @@ namespace SuiviCompresseur.GestionCompresseur.Data.Repository
                 return datedouble;
         }
 
-        public string testPut(Fiche_Suivi fiche_Suivi,Guid id)
+        public string testPut(Fiche_Suivi fiche_Suivi, Guid id)
         {
             string result;
-            int value = DateTime.Compare(fiche_Suivi.Date, DateTime.Now);
-            if (value <= 0)
+            string datedouble = TestDoubleDatePut(fiche_Suivi, id);
+            if (datedouble == "true")
             {
 
-                if (fiche_Suivi.Date.DayOfWeek != DayOfWeek.Saturday && fiche_Suivi.Date.DayOfWeek != DayOfWeek.Sunday)
 
+                int value = DateTime.Compare(fiche_Suivi.Date, DateTime.Now);
+                if (value <= 0)
                 {
 
-                    DateTime date2;
-                    int annee = fiche_Suivi.Date.Year;
-                    int mois = fiche_Suivi.Date.Month - 1;
-                    if (mois == 0)
-                    {
-                        mois = 12;
-                        annee--;
-                    }
-                    int last = DateTime.DaysInMonth(annee, mois);
-                    DateTime date = new DateTime(annee, mois, last);
+                    if (fiche_Suivi.Date.DayOfWeek != DayOfWeek.Saturday && fiche_Suivi.Date.DayOfWeek != DayOfWeek.Sunday)
 
-                    if (date.DayOfWeek == DayOfWeek.Saturday)
                     {
-                        date2 = new DateTime(annee, mois, last - 1);
-                    }
-                    else if (date.DayOfWeek != DayOfWeek.Sunday)
-                    {
-                        date2 = new DateTime(annee, mois, last - 2);
+
+                        DateTime date2;
+                        int annee = fiche_Suivi.Date.Year;
+                        int mois = fiche_Suivi.Date.Month - 1;
+                        if (mois == 0)
+                        {
+                            mois = 12;
+                            annee--;
+                        }
+                        int last = DateTime.DaysInMonth(annee, mois);
+                        DateTime date = new DateTime(annee, mois, last);
+
+                        if (date.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            date2 = new DateTime(annee, mois, last - 1);
+                        }
+                        else if (date.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            date2 = new DateTime(annee, mois, last - 2);
+                        }
+                        else
+                        {
+                            date2 = new DateTime(annee, mois, last);
+                        }
+                        var res = _context.Fiche_Suivis.Where(c => c.Date == date2).FirstOrDefault();
+                        if (res != null)
+                            result = "true";
+                        else
+                            result = "The last day of the previous month not completed";
+
                     }
                     else
-                    {
-                        date2 = new DateTime(annee, mois, last);
-                    }
-                    var res = _context.Fiche_Suivis.Where(c => c.Date == date2).FirstOrDefault();
-                    if (res != null)
-                        result = "true";
-                    else
-                        result = "The last day of the previous month not completed";
-
+                        result = "Week-end";
                 }
                 else
-                     result = "Week-end";
-            }
-            else
-                result = "Date superior to the date of today";
+                    result = "Date superior to the date of today";
 
 
-            if (result == "true")
-            {
-                int max = _context.Fiche_Suivis.Where(c => c.CompFilialeID == fiche_Suivi.CompFilialeID).Max(c => c.Index_Electrique);
-                if (fiche_Suivi.Nbre_Heurs_Charge < fiche_Suivi.Nbre_Heurs_Total)
+                if (result == "true")
                 {
-                    if (fiche_Suivi.Index_Electrique >= max)
+                    int max = _context.Fiche_Suivis.Where(c => (c.CompFilialeID == fiche_Suivi.CompFilialeID) && (c.Date < fiche_Suivi.Date)).Max(c => c.Index_Electrique);
+                    if (fiche_Suivi.Nbre_Heurs_Charge < fiche_Suivi.Nbre_Heurs_Total)
                     {
+                        if (fiche_Suivi.Index_Electrique >= max)
                         {
-                            var entity = _context.Fiche_Suivis.Find(id);
-                            if (entity != null)
                             {
-                                return "true";
-                            }
-                            else
-                            {
-                                return "Fiche suivi don't exist";
+                                var entity = _context.Fiche_Suivis.Find(id);
+                                if (entity != null)
+                                {
+                                    return "true";
+                                }
+                                else
+                                {
+                                    return "Fiche suivi don't exist";
+                                }
                             }
                         }
+                        else
+                            return "Index lower than the previous index";
                     }
                     else
-                        return "Index lower than the previous index";
+                        return "Total number of hours less than the number of hours in charge";
                 }
                 else
-                    return "Total number of hours less than the number of hours in charge";
+                    return result;
             }
-            else
-                return result;
+            else return datedouble;
         }
 
 
@@ -187,5 +200,24 @@ namespace SuiviCompresseur.GestionCompresseur.Data.Repository
             else
                 return "Existing Fiche_suivi at this date";
         }
+
+        public string TestDoubleDatePut(Fiche_Suivi fiche_Suivi, Guid id)
+        {
+            var entity = _context.Fiche_Suivis.Find(id);
+            if (entity.Date == fiche_Suivi.Date)
+            {
+                return "true";
+            }
+            else
+            {
+                var doubledate = _context.Fiche_Suivis.Where(c => c.CompFilialeID == fiche_Suivi.CompFilialeID && c.Date == fiche_Suivi.Date).FirstOrDefault();
+                if (doubledate == null)
+                    return "true";
+                else
+                    return "Existing Fiche_suivi at this date";
+            }
+
+        }
     }
 }
+

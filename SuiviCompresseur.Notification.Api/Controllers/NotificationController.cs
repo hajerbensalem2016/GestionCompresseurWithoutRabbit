@@ -30,7 +30,8 @@ namespace SuiviCompresseur.Notification.Api.Controllers
 
         // GET api/values
         //[HttpGet("{Address}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpGet]
 
         public async Task<IEnumerable<EmailFrom>> GetNotification(string address)
@@ -40,7 +41,7 @@ namespace SuiviCompresseur.Notification.Api.Controllers
         }
 
         // POST api/values
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPost]
         public async Task<string> SendEmail([FromBody] EmailMessage emailMessage)
         {
@@ -53,8 +54,9 @@ namespace SuiviCompresseur.Notification.Api.Controllers
             return await mediator.Send(new SendEmailCommand(emailMessage));
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         // PUT api/values/5
+        [Authorize(Roles = "Editors , TotalControl , LimitedAccess")]
         [HttpGet("{id}")]
         public async Task<string> Seen(Guid id, string address)
         {

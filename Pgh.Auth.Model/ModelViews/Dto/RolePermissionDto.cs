@@ -41,6 +41,8 @@ namespace Pgh.Auth.Model.ModelViews.Dto
         public Guid MenuId { get; set; }
         [JsonProperty("Role ID")]
         public Guid RoleId { get; set; }
+
+        
     }
 
     public class RoleUsersMenusDtoGetDelete

@@ -55,14 +55,14 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 
 
         // POST: api/FicheCompresseurs
-        [AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpPost]
         public async Task<ActionResult<string>> PostFicheCompresseur([FromBody] FicheCompresseur ficheCompresseur) =>
             await mediator.Send(new CreateGenericCommand<FicheCompresseur>(ficheCompresseur));
 
 
         // DELETE: api/FicheCompresseurs/5
-        [AllowAnonymous]
+        [Authorize(Roles = "Editors , TotalControl")]
         [HttpDelete("{id}")]
         public async Task<string> DeleteFicheCompresseur(Guid id) =>
             await mediator.Send(new RemoveGenericCommand<FicheCompresseur>(id));

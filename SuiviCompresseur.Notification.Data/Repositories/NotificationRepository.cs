@@ -30,7 +30,13 @@ namespace SuiviCompresseur.Notification.Data.Repositories
 
             foreach (var to in Notification)
             {
-                Notification1.Add(_context.EmailFroms.Find(to));
+                EmailFrom Notification2 = new EmailFrom();
+                Notification2 = _context.EmailFroms.Find(to);
+                if (Notification2.ExceptionMessage == "0")
+                {
+                    Notification1.Add(Notification2);
+                }
+                
             }
 
             return Notification1;

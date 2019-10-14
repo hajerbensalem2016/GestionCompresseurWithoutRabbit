@@ -53,7 +53,7 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 
 
         // PUT: api/Fiche_Suivis/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "TotalControl , LimitedAccess")]
         [HttpPut("{id}")]
         public async Task<string> PutFiche_Suivi([FromRoute] Guid id, [FromBody] Fiche_Suivi fiche_Suivi)
         {
@@ -72,7 +72,7 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 
 
         // POST: api/Fiche_Suivis
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "TotalControl , LimitedAccess")]
         [HttpPost]
         public async Task<ActionResult<string>> PostFiche_Suivi([FromBody] Fiche_Suivi fiche_Suivi)
         {
@@ -91,7 +91,7 @@ namespace SuiviCompresseur.GestionCompresseur.Api.Controllers
 
 
         // DELETE: api/Fiche_Suivis/5
-        [Authorize(Roles = "Editors , SupAdmin")]
+        [Authorize(Roles = "TotalControl , LimitedAccess")]
         [HttpDelete("{id}")]
         public async Task<string> DeleteFiche_Suivi(Guid id) =>
             await mediator.Send(new RemoveGenericCommand<Fiche_Suivi>(id));

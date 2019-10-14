@@ -595,41 +595,46 @@ namespace Pgh.Services.Authentification.Controllers
 
 
         [HttpPut("/api/roles/Users-Menus")]
-        public async Task<ActionResult> PutRolesUsersMenus([FromBody] IEnumerable<RoleUsersMenusDtoUpdate> liEntity)
+        public async Task<ActionResult> PutRolesUsersMenus([FromBody] RoleUsersMenusDtoUpdate liEntity ,Guid Id)
         {
-
-            foreach (var entity in liEntity)
-            {
-                if (entity == null)
+            
+                RoleUsersMenusDtoGetDelete aff = new RoleUsersMenusDtoGetDelete
                 {
-                    return new JsonResult(new ErrorDetails
-                    {
-                        StatusCode = 400,
-                        Message = "Veuillez ajouter des informations concernant le role !"
-                    });
-                }
+                    UserId = liEntity.UserId,
+                    MenuId = liEntity.MenuId,
+                    RoleId = Id
+                };
 
-                var entityToUpdate = await Work.AffRoleUsersMenus.Get(x => x.MenuId == entity.MenuId && x.UsersId == entity.UserId);
+                await DeleteUsersMenusList(aff);
 
-                if (entityToUpdate == null)
+
+
+                var role = await Work.Role.Get(x => x.RoleId == liEntity.RoleId);
+                var menu = await Work.Menu.Get(x => x.MenuId == liEntity.MenuId);
+                var user = await Work.Users.Get(x => x.UsersId == liEntity.UserId);
+                if (role != null && menu != null && user != null)
                 {
-                    return new JsonResult(new ErrorDetails
+                    AffRolesUsersMenus aff1 = new AffRolesUsersMenus
                     {
-                        StatusCode = 404,
-                        Message = "role n'existe pas dans la base de donneés veuillez verifier son Nom !"
-                    });
-                }
+                        UsersId = user.UsersId,
+                        MenuId = menu.MenuId,
+                        RoleId = role.RoleId
+                    };
 
+                    
+                    await Work.AffRoleUsersMenus.Add(aff1);
+                   
+
+                }
                 
-                _mapper.Map(entity, entityToUpdate);
-
-                await Work.Complete();
-            }
-
+           
+            await Work.Complete();
 
             return Ok();
         }
         #endregion
+
+
 
         [HttpDelete("/api/roles/Users-Menus")]
         public async Task<ActionResult> DeleteUsersMenusList([FromQuery] RoleUsersMenusDtoGetDelete query)

@@ -595,13 +595,14 @@ namespace Pgh.Services.Authentification.Controllers
 
 
         [HttpPut("/api/roles/Users-Menus")]
-        public async Task<ActionResult> PutRolesUsersMenus([FromBody] RoleUsersMenusDtoUpdate liEntity)
+        public async Task<ActionResult> PutRolesUsersMenus([FromBody] RoleUsersMenusDtoUpdate liEntity ,Guid Id)
         {
             
                 RoleUsersMenusDtoGetDelete aff = new RoleUsersMenusDtoGetDelete
                 {
                     UserId = liEntity.UserId,
-                    MenuId = liEntity.MenuId                   
+                    MenuId = liEntity.MenuId,
+                    RoleId = Id
                 };
 
                 await DeleteUsersMenusList(aff);

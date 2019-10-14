@@ -13,5 +13,8 @@ namespace SuiviCompresseur.Notification.Domain.Models
         public string Files { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
+        public string idFiliale { get; set; }
+        public string phoneNumber { get; set; }
+        public string posteNumber { get; set; }
     }
 }

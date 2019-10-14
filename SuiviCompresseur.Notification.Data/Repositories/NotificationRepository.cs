@@ -30,11 +30,18 @@ namespace SuiviCompresseur.Notification.Data.Repositories
 
             foreach (var to in Notification)
             {
-                Notification1.Add(_context.EmailFroms.Find(to));
+                EmailFrom Notification2 = new EmailFrom();
+                Notification2 = _context.EmailFroms.Find(to);
+                if (Notification2.ExceptionMessage == "0")
+                {
+                    Notification1.Add(Notification2);
+                }
+
             }
 
             return Notification1;
         }
+
 
         public string NotificationSeen(Guid Id, string address)
         {
@@ -146,33 +153,7 @@ namespace SuiviCompresseur.Notification.Data.Repositories
 
                     _context.EmailTos.Add(emailTo);
 
-                    //if (emailMessage.CcAddresses != "")
-                    //{
-                    //    EmailTo emailTo2 = new EmailTo();
 
-                    //    emailTo2.IdMail = emailFrom.IdMail;
-                    //    emailTo2.Seen = false;
-                    //    emailTo2.ToAddresses = emailMessage.CcAddresses;
-                    //    string NameCc= emailMessage.CcAddresses.Remove(emailMessage.CcAddresses.IndexOf("/"));
-                    //    emailTo2.ToName = NameCc;
-                    //    emailTo2.ReceiveType = "Cc";
-
-                    //    _context.EmailTos.Add(emailTo2);
-                    //}
-
-
-                    //if (emailMessage.CccAddresses != "")
-                    //{
-                    //    EmailTo emailTo3 = new EmailTo();
-                    //    emailTo3.IdMail = emailFrom.IdMail;
-                    //    emailTo3.Seen = false;
-                    //    emailTo3.ToAddresses = emailMessage.CccAddresses;
-                    //    string NameCcc = emailMessage.CccAddresses.Remove(emailMessage.CccAddresses.IndexOf("/"));
-                    //    emailTo3.ToName = NameCcc;
-                    //    emailTo3.ReceiveType = "Ccc";
-
-                    //    _context.EmailTos.Add(emailTo3);
-                    //}
                     _context.SaveChanges();
                     return "Mail success";
 
@@ -205,32 +186,6 @@ namespace SuiviCompresseur.Notification.Data.Repositories
                 emailTo.ReceiveType = "A";
                 _context.EmailTos.Add(emailTo);
 
-
-                //if (emailMessage.CcAddresses != "")
-                //{
-                //    EmailTo emailTo2 = new EmailTo();
-
-                //    emailTo2.IdMail = emailFrom.IdMail;
-                //    emailTo2.Seen = false;
-                //    emailTo2.ToAddresses = emailMessage.CcAddresses;
-                //    string NameCc = emailTo2.ToAddresses.Remove(emailTo2.ToAddresses.IndexOf("/"));
-                //    emailTo2.ToName = NameCc;
-                //    emailTo2.ReceiveType = "Cc";
-                //    _context.EmailTos.Add(emailTo2);
-                //}
-
-                //if (emailMessage.CccAddresses != "")
-                //{
-                //    EmailTo emailTo3 = new EmailTo();
-
-                //    emailTo3.IdMail = emailFrom.IdMail;
-                //    emailTo3.Seen = false;
-                //    emailTo3.ToAddresses = emailMessage.CccAddresses;
-                //    string NameCcc = emailTo3.ToAddresses.Remove(emailTo3.ToAddresses.IndexOf("/"));
-                //    emailTo3.ToName = NameCcc;
-                //    emailTo3.ReceiveType = "Ccc";
-                //    _context.EmailTos.Add(emailTo3);
-                //}
                 _context.SaveChanges();
                 return ex.Message;
 
